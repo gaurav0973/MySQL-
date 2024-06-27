@@ -1,15 +1,4 @@
-# -----------------------------SQL Daily  Learnings---------------------------------------
-# DataSet Used
-
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
-```bash
-pip install foobar
-```
-
-
-
+# ----------------------SQL Daily  Learnings----------------------
 # Day-1
 
 ![Screenshot 2024-06-27 125637](https://github.com/gaurav0973/MySQL-/assets/151557489/baabcb47-f38f-4ab3-92d9-0c1d893f081c)
@@ -339,9 +328,13 @@ FROM financials;
 
 ## QUIZ
 
+- Print profit % for all the movies
+
 ```sql
 SELECT *,
-(revenue-budget) AS profit,
-(revenue-budget)*100/budget AS profit_percentage
+    (revenue-budget) AS profit,
+    (revenue-budget)*100/budget AS profit_percentage
 FROM financials;
 ```
+
+
