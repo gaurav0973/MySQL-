@@ -288,7 +288,7 @@ GROUP BY release_year
 HAVING movie_count > 2;
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/670a1b8b-dac7-49de-b41a-a334a7807142/0e9c6906-82ad-415a-ad2b-bf4c96ddc3f0/Untitled.png)
+![Screenshot 2024-06-27 130316](https://github.com/gaurav0973/MySQL-/assets/151557489/35fbf5d3-53f1-4fc2-98c4-1c2a1be7eb01)
 
 ```sql
 SELECT * FROM actors;
@@ -309,7 +309,7 @@ SELECT *,
 FROM financials;
 ```
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/670a1b8b-dac7-49de-b41a-a334a7807142/14e29785-d76b-465c-b86c-c994d26cedeb/Untitled.png)
+![Screenshot 2024-06-27 130437](https://github.com/gaurav0973/MySQL-/assets/151557489/51f8349f-b8e5-46be-80dd-24e3731afe8b)
 
 - Currency conversion and unit conversion are important use cases of SQL
 - The IF function is often used in SQL queries.
