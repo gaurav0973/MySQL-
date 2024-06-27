@@ -2,7 +2,7 @@
 # 
 # 
 #                    Part-1 :- Data Retrival -> single table
-# Day-1
+# 😃Day-1
 
 ![Screenshot 2024-06-27 125637](https://github.com/gaurav0973/MySQL-/assets/151557489/baabcb47-f38f-4ab3-92d9-0c1d893f081c)
 
@@ -69,7 +69,7 @@ SELECT release_year FROM movies where title="The Godfather";
 SELECT distinct studio FROM movies WHERE industry="Bollywood";
 ```
 
-# DAY-2
+# 😃DAY-2
 
 ![Screenshot 2024-06-27 125637](https://github.com/gaurav0973/MySQL-/assets/151557489/baabcb47-f38f-4ab3-92d9-0c1d893f081c)
 
@@ -177,7 +177,7 @@ Select all movies that are not from Marvel Studios
 select * from movies where studio != "marvel studios"
 ```
 
-# DAY-3
+# 😃DAY-3
 
 ![Screenshot 2024-06-27 125637](https://github.com/gaurav0973/MySQL-/assets/151557489/baabcb47-f38f-4ab3-92d9-0c1d893f081c)
 
@@ -264,7 +264,7 @@ GROUP BY release_year
 ORDER BY release_year DESC;
 ```
 
-# DAY-4
+# 😃DAY-4
 
 - The order of query execution in SQL is
 
