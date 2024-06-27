@@ -79,7 +79,7 @@ SELECT distinct studio FROM movies WHERE industry="Bollywood";
 
 # DAY-2
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/670a1b8b-dac7-49de-b41a-a334a7807142/3b02659f-0fdc-4867-9c57-6e535d680ca8/Untitled.png)
+![Screenshot 2024-06-27 125637](https://github.com/gaurav0973/MySQL-/assets/151557489/baabcb47-f38f-4ab3-92d9-0c1d893f081c)
 
 - **<, >, <=, >=** are the basic numerical operators used in SQL
 
@@ -187,7 +187,7 @@ select * from movies where studio != "marvel studios"
 
 # DAY-3
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/670a1b8b-dac7-49de-b41a-a334a7807142/3b02659f-0fdc-4867-9c57-6e535d680ca8/Untitled.png)
+![Screenshot 2024-06-27 125637](https://github.com/gaurav0973/MySQL-/assets/151557489/baabcb47-f38f-4ab3-92d9-0c1d893f081c)
 
 - Knowing **Summary Analytics** in SQL will enable you to perform **AD HOC Analysis**, which is an important business use case.
 - **MAX, MIN, and AVG** are the common summary analytics functions of SQL.
