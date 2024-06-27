@@ -1,4 +1,4 @@
-# ----------------------SQL Daily  Learnings----------------------
+# -----------------SQL Daily  Learnings------------------
 # Day-1
 
 ![Screenshot 2024-06-27 125637](https://github.com/gaurav0973/MySQL-/assets/151557489/baabcb47-f38f-4ab3-92d9-0c1d893f081c)
