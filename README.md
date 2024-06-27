@@ -12,7 +12,7 @@ pip install foobar
 
 # Day-1
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/670a1b8b-dac7-49de-b41a-a334a7807142/3b02659f-0fdc-4867-9c57-6e535d680ca8/Untitled.png)
+![Screenshot 2024-06-27 125637](https://github.com/gaurav0973/MySQL-/assets/151557489/baabcb47-f38f-4ab3-92d9-0c1d893f081c)
 
 - With the help of the **USE** function, you can indicate the query to use a particular database, especially when there are multiple databases.
 - **SELECT, FROM, and WHERE** are the basic SQL functions.
