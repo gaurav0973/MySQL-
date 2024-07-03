@@ -339,5 +339,111 @@ SELECT *,
     (revenue-budget)*100/budget AS profit_percentage
 FROM financials;
 ```
+# DAY-5
+
+**Why do we need multiple tables in a Database ??**
+
+Multiple tables are needed in a database for several reasons:
+
+1. **Data Normalization**: To prevent data redundancy and ensure data is efficiently distributed across the database.
+2. **Data Integrity**: Ensuring consistency and accuracy of data by establishing relationships between tables.
+3. **Complex Querying**: Multiple tables allow for complex queries using JOIN operations to fetch related data from different tables.
+4. **Security**: Different tables can have different levels of access, improving data security.
+5. **Performance**: It's faster and more efficient to search, update, and manage data when it's spread across multiple, smaller tables rather than one large table.
+
+**IMPORTANT LINK**
+
+https://joins.spathon.com/
+
+https://www.kaggle.com/discussions/general/353654
+
+https://www.youtube.com/live/s6xAVqYdmJ4?si=Op4HZZZP5Z7pXNy7
+
+- **JOIN** and **ON** clauses used together will enable you to merge two tables.
+- **JOIN**, **ON**, and **AND** clauses will enable you to merge two tables based on multiple columns.
+- There is an export button in the SQL editor through which you can download results as a **.csv** file.
+- You can assign an abbreviated letter next to the table name to shorten the query length.
+- There are multiple kinds of **JOIN** in SQL: **INNER**, **LEFT**, **RIGHT**, **FULL**, and **CROSS JOIN**.
+- By default, SQL performs an **INNER JOIN**.
+- **LEFT**, **RIGHT**, and **FULL JOINS** are also called **OUTER JOIN**.
+- The **UNION** clause will enable you to perform a **FULL JOIN**.
+
+JOIN/INNER JOIN
+
+```sql
+SELECT
+m.movie_id, title, budget, revenue, currency, unit
+FROM movies m
+JOIN financials f
+ON m.movie_id = f.movie_id;
+
+SELECT
+m.movie_id, title, budget, revenue, currency, unit
+FROM movies m
+INNER JOIN financials f
+ON m.movie_id = f.movie_id;
+```
+
+LEFT JOIN
+
+```sql
+SELECT
+m.movie_id, title, budget, revenue, currency, unit
+FROM movies m
+LEFT JOIN financials f
+ON m.movie_id = f.movie_id;
+```
+
+RIGHT JOIN
+
+```sql
+SELECT
+m.movie_id, title, budget, revenue, currency, unit
+FROM movies m
+RIGHT JOIN financials f
+ON m.movie_id = f.movie_id;
+```
+
+FULL JOIN
+
+```sql
+SELECT
+m.movie_id, title, budget, revenue, currency, unit
+FROM movies m
+LEFT JOIN financials f
+ON m.movie_id = f.movie_id
+
+UNION
+
+SELECT
+m.movie_id, title, budget, revenue, currency, unit
+FROM movies m
+RIGHT JOIN financials f
+ON m.movie_id = f.movie_id;
+```
+
+## QUIZ
+
+1. Generate a report of all Hindi movies sorted by their revenue amount in millions. Print movie name, revenue, currency, and unit
+
+```sql
+SELECT * FROM movies;
+SELECT * FROM financials;
+SELECT * FROM languages;
+```
+
+```sql
+SELECT title, revenue, currency, unit,
+ CASE
+    WHEN unit="Thousands" THEN ROUND(revenue/1000,2)
+    WHEN unit="Billions" THEN ROUND(revenue*1000,2)
+ ELSE revenue
+END as revenue_mln
+FROM movies m
+JOIN financials f ON m.movie_id = f.movie_id
+JOIN languages l ON m.language_id=l.language_id
+WHERE l.name = "hindi"
+ORDER BY revenue_mln DESC
+```
 
 
