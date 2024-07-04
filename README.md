@@ -446,4 +446,236 @@ WHERE l.name = "hindi"
 ORDER BY revenue_mln DESC
 ```
 
+# DAY-6 → Sub Queries
+
+- Sub Queries are queries which generate output that will be used as input to the main query.
+- Queries that provide a single record, list, or even a table as output can be used as a subquery.
+
+```sql
+#this will give the maximum imdb rating
+SELECT  MAX(imdb_rating) FROM movies;
+
+#this will give the minimum imdb rating
+SELECT  MIN(imdb_rating) FROM movies;
+
+#this will add an age column in the table
+SELECT * FROM actors;
+SELECT name , YEAR(current_date()) - birth_year AS age
+FROM actors;
+```
+
+```sql
+#TYEP-1 -> returns a single value
+SELECT * from movies
+WHERE imdb_rating = (SELECT  MAX(imdb_rating) FROM movies);
+```
+
+```sql
+#TYPE-2 -> returned a list of values
+SELECT * from movies
+WHERE imdb_rating in ((SELECT  MIN(imdb_rating) FROM movies),
+(SELECT  MAX(imdb_rating) FROM movies));
+```
+
+```sql
+#TYPE-3 -> retures a table (number of rows)
+# select all the actors whoose age>70 and age<85
+
+SELECT * FROM
+(SELECT name , YEAR(current_date()) - birth_year AS age
+FROM actors) as actors_age
+WHERE age BETWEEN 70 and 85
+```
+
+- **IN, ANY & ALL clauses expect a list as input.**
+- **The ANY clause executes the condition for any one of the values on the list that meets the condition, which is the minimum value by default.**
+- **The ALL clause executes the condition where all the values on the list meet the condition, which is the maximum value of the list.**
+
+```sql
+#select actors who acted in any of the movies (101,110,121)
+SELECT * FROM movie_actor;
+SELECT * FROM actors;
+```
+
+```sql
+# these are the actors who actes in the listed movies
+SELECT actor_id FROM movie_actor
+WHERE movie_id in (101,110,121);
+```
+
+```sql
+#METHOD-1
+SELECT name FROM actors WHERE actor_id in
+(SELECT actor_id FROM movie_actor
+WHERE movie_id in (101,110,121));
+```
+
+```sql
+#METHOD-2
+SELECT name FROM actors WHERE actor_id = ANY(
+SELECT actor_id FROM movie_actor
+WHERE movie_id in (101,110,121));
+```
+
+**select all the movies whose rating is greater than any of the marval movie rating**
+
+```sql
+SELECT * FROM movies;
+
+SELECT imdb_rating FROM movies
+WHERE studio = "Marvel Studios";
+```
+
+```sql
+#METHOD-1
+SELECT * FROM movies WHERE imdb_rating > ANY(
+SELECT imdb_rating FROM movies
+WHERE studio = "Marvel Studios");
+```
+
+```sql
+#METHOD-2
+SELECT * FROM movies WHERE imdb_rating > (
+SELECT min(imdb_rating) FROM movies
+WHERE studio = "Marvel Studios");
+```
+
+```sql
+#METHOD-3
+SELECT * FROM movies WHERE imdb_rating > SOME (
+SELECT (imdb_rating) FROM movies
+WHERE studio = "Marvel Studios");
+```
+
+**select all the movies whose rating is greater than all of the marval movie rating**
+
+```sql
+#Method-1
+SELECT * FROM movies WHERE imdb_rating > ALL (
+SELECT (imdb_rating) FROM movies
+WHERE studio = "Marvel Studios");
+```
+
+```sql
+#Method-2
+SELECT * FROM movies WHERE imdb_rating > (
+SELECT max(imdb_rating) FROM movies
+WHERE studio = "Marvel Studios");
+```
+
+# QUIZ
+
+https://leetcode.com/problems/customer-who-visited-but-did-not-make-any-transactions/description/?envType=study-plan-v2&envId=top-sql-50
+
+### Visits Table:
+
+| visit_id | customer_id |
+| --- | --- |
+| 1 | 23 |
+| 2 | 9 |
+| 4 | 30 |
+| 5 | 54 |
+| 6 | 96 |
+| 7 | 54 |
+| 8 | 54 |
+
+### Transactions Table:
+
+| transaction_id | visit_id | amount |
+| --- | --- | --- |
+| 2 | 5 | 310 |
+| 3 | 5 | 300 |
+| 9 | 5 | 200 |
+| 12 | 1 | 910 |
+| 13 | 2 | 970 |
+
+### Step 1: LEFT JOIN
+
+We perform a LEFT JOIN on the `Visits` and `Transactions` tables using the `visit_id` column.
+
+### Query:
+
+```sql
+SELECT *
+FROM Visits V
+LEFT JOIN Transactions T
+ON V.visit_id = T.visit_id;
+```
+
+### Result of LEFT JOIN:
+
+| visit_id | customer_id | transaction_id | amount |
+| --- | --- | --- | --- |
+| 1 | 23 | 12 | 910 |
+| 2 | 9 | 13 | 970 |
+| 4 | 30 | NULL | NULL |
+| 5 | 54 | 2 | 310 |
+| 5 | 54 | 3 | 300 |
+| 5 | 54 | 9 | 200 |
+| 6 | 96 | NULL | NULL |
+| 7 | 54 | NULL | NULL |
+| 8 | 54 | NULL | NULL |
+
+### Step 2: WHERE Clause
+
+We filter the results to keep only those rows where `transaction_id` is `NULL`, meaning no transaction was made during those visits.
+
+### Query:
+
+```sql
+SELECT *
+FROM Visits V
+LEFT JOIN Transactions T
+ON V.visit_id = T.visit_id
+WHERE T.transaction_id IS NULL;
+```
+
+### Result after WHERE Clause:
+
+| visit_id | customer_id | transaction_id | amount |
+| --- | --- | --- | --- |
+| 4 | 30 | NULL | NULL |
+| 6 | 96 | NULL | NULL |
+| 7 | 54 | NULL | NULL |
+| 8 | 54 | NULL | NULL |
+
+### Step 3: GROUP BY Clause
+
+We group the filtered results by `customer_id` to aggregate the number of visits without transactions for each customer.
+
+### Query:
+
+```sql
+SELECT
+    V.customer_id,
+    COUNT(V.visit_id) AS count_no_trans
+FROM Visits V
+LEFT JOIN Transactions T
+ON V.visit_id = T.visit_id
+WHERE T.transaction_id IS NULL
+GROUP BY V.customer_id;
+```
+
+### Result after GROUP BY Clause:
+
+| customer_id | count_no_trans |
+| --- | --- |
+| 30 | 1 |
+| 54 | 2 |
+| 96 | 1 |
+
+https://leetcode.com/problems/rising-temperature/description/?envType=study-plan-v2&envId=top-sql-50
+
+`Weather` table:
+
+| id | recordDate | temperature |
+| --- | --- | --- |
+| 1 | 2015-01-01 | 10 |
+| 2 | 2015-01-02 | 25 |
+| 3 | 2015-01-03 | 20 |
+| 4 | 2015-01-04 | 30 |
+- **Join Conditions Evaluation**:
+    - For `t1` (2015-01-02, temperature `25`) and `t2` (2015-01-01, temperature `10`): The condition `25 > 10` is true, and `DATEDIFF('2015-01-02', '2015-01-01') = 1` is true, so `id = 2` is included.
+    - For `t1` (2015-01-04, temperature `30`) and `t2` (2015-01-03, temperature `20`): The condition `30 > 20` is true, and `DATEDIFF('2015-01-04', '2015-01-03') = 1` is true, so `id = 4` is included.
+
 
