@@ -679,3 +679,114 @@ https://leetcode.com/problems/rising-temperature/description/?envType=study-plan
     - For `t1` (2015-01-04, temperature `30`) and `t2` (2015-01-03, temperature `20`): The condition `30 > 20` is true, and `DATEDIFF('2015-01-04', '2015-01-03') = 1` is true, so `id = 4` is included.
 
 
+# DAY-7 → Common Table Expression (CTE)
+
+- Common Table Expression (CTE) creates a temporary table within a query.
+- **WITH** and **AS** clauses are used in combination to create CTE.
+- One can create multiple CTEs inside a query.
+
+### **QUESTION-1 :- Get all actors whose age is between 70 and 85**
+
+### Method-1
+
+```sql
+SELECT
+	name,
+	YEAR(current_date()) - birth_year AS age
+FROM actors
+HAVING age BETWEEN 70 AND 85;
+```
+
+### Method-2
+
+```sql
+SELECT actors_name, age
+FROM
+	(SELECT
+	name AS actors_name,
+	YEAR(current_date()) - birth_year AS age
+	FROM actors) AS actors_age
+WHERE age BETWEEN 70 AND 85;
+```
+
+### Method-3
+
+```sql
+WITH actors_age AS (
+	SELECT
+	name AS actors_name,
+	YEAR(current_date()) - birth_year AS age
+	FROM actors
+)
+SELECT actors_name, age
+FROM actors_age
+WHERE age BETWEEN 70 AND 85;
+```
+
+### **QUESTION-2 :-movies that produce 500% profit or more and there rating was less than avg rating for all movies**
+
+PART-1 -> movies that produce 500% profit or more
+
+### **we cannot use aliase in the where condition**
+
+```sql
+SELECT
+	*,
+	((revenue - budget)*100)/budget AS pct_profit
+FROM financials
+WHERE ((revenue - budget)*100)/budget;
+```
+
+### PART-2 -> there  rating was less than avg rating for all movies
+
+```sql
+SELECT AVG(imdb_rating) FROM movies;
+SELECT * FROM movies
+WHERE imdb_rating < (SELECT AVG(imdb_rating) FROM movies);
+```
+
+```sql
+
+# this is a overview how the structure of CTE looks like 
+WITH
+	x as (),
+	y as (),
+SELECT
+	x.movie_id, x.pct_profit,
+	y.title, y.imdb_rating
+FROM x
+JOIN y
+ON x.movie_id = y.movie_id
+WHERE pct_profit >= 500;
+```
+
+```sql
+#Actual Quary
+WITH
+	x as (
+	SELECT
+	*,
+	((revenue - budget)*100)/budget AS pct_profit
+	FROM financials
+	WHERE ((revenue - budget)*100)/budget
+	),
+	y as (
+	SELECT * FROM movies
+	WHERE imdb_rating < (SELECT AVG(imdb_rating) FROM movies)
+	)
+SELECT
+x.movie_id, x.pct_profit,
+y.title, y.imdb_rating
+FROM x
+JOIN y
+ON x.movie_id = y.movie_id
+WHERE pct_profit >= 500;
+```
+
+## **BENIFITS OF CTE**
+
+1. Simple Queries  → Quaries readibility
+2. same result set can be referenced many times withing the scope → Query Resuablity
+3. gives potential candidates for the views → a data trasformed version of table
+
+**Recursive sql Queries** → https://youtu.be/7hZYh9qXxe4?si=s4RhYc1Et3q6WgAC
